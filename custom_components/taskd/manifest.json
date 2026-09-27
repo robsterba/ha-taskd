@@ -1,0 +1,13 @@
+{
+  "domain": "taskd",
+  "name": "taskd",
+  "codeowners": ["@robsterba"],
+  "config_flow": true,
+  "documentation": "https://github.com/robsterba/ha-taskd",
+  "integration_type": "service",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/robsterba/ha-taskd/issues",
+  "loggers": ["custom_components.taskd"],
+  "requirements": [],
+  "version": "0.1.0"
+}

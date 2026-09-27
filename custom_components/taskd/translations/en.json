@@ -1,0 +1,61 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to taskd",
+        "description": "Base URL of your taskd instance, e.g. http://taskd.local:8000",
+        "data": {
+          "url": "URL"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot connect to taskd at that URL.",
+      "invalid_url": "That does not look like a valid URL."
+    },
+    "abort": {
+      "already_configured": "This taskd instance is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "taskd options",
+        "data": {
+          "scan_interval": "Scan interval (seconds)"
+        }
+      }
+    },
+    "error": {
+      "invalid_scan_interval": "Scan interval must be between 30 and 3600 seconds."
+    }
+  },
+  "services": {
+    "create_task": {
+      "name": "Create task",
+      "description": "Create a task in taskd.",
+      "fields": {
+        "name": {
+          "name": "Name",
+          "description": "Task name."
+        },
+        "description": {
+          "name": "Description",
+          "description": "Task description."
+        },
+        "priority": {
+          "name": "Priority",
+          "description": "Task priority: low, medium, high or urgent."
+        },
+        "tags": {
+          "name": "Tags",
+          "description": "List of tag names to attach."
+        },
+        "due_date": {
+          "name": "Due date",
+          "description": "Due date and time (ISO 8601)."
+        }
+      }
+    }
+  }
+}
