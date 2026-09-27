@@ -92,6 +92,20 @@ Run the test suite (Home Assistant test tooling requires Linux/macOS or WSL):
 wsl bash -lc "cd /mnt/d/ai_projects/ha-taskd && ~/ha-taskd-testenv/bin/python -m pytest tests/ -q"
 ```
 
+### Releases
+
+The version in `custom_components/taskd/manifest.json` is the single
+source of truth. To cut a release:
+
+1. Bump `version` in the manifest (semver: pre-1.0, so features bump
+   the minor and fixes the patch).
+2. Commit and push to `main`.
+3. Tag and push the tag: `git tag v0.1.1 && git push origin v0.1.1`.
+
+CI runs the lint and tests on every push, verifies the tag matches the
+manifest version, and publishes a GitHub Release with generated notes.
+HACS picks up that release as the installable version.
+
 ## License
 
 MIT
