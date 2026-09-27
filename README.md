@@ -34,15 +34,29 @@ HA Assist — no custom card required.
 
 ## Installation
 
-1. Copy `custom_components/taskd/` into your Home Assistant configuration
-   directory under `custom_components/taskd/`.
+### HACS (recommended)
+
+1. In HACS, go to **Settings → Custom repositories** (or the three-dot
+   menu → Custom repositories).
+2. Add `robsterba/ha-taskd` with repository type **Integration**.
+3. Find **taskd** in HACS and download it.
+4. Restart Home Assistant.
+
+### Manual
+
+1. Copy `custom_components/taskd/` into your Home Assistant
+   configuration directory under `custom_components/taskd/`.
 2. Restart Home Assistant.
-3. Go to **Settings → Devices & Services → Add Integration**, search for
-   **taskd**, and enter the base URL of your instance
-   (e.g. `http://192.168.1.140:8000`). A bare `host` or `host:port` also
-   works; the scheme defaults to `http` and the port to `8000`.
-4. Add the built-in **To-Do List** card to a dashboard and select the
-   `todo.taskd` entity.
+
+### Configuration
+
+Go to **Settings → Devices & Services → Add Integration**, search for
+**taskd**, and enter the base URL of your instance
+(e.g. `http://192.168.1.140:8000`). A bare `host` or `host:port` also
+works; the scheme defaults to `http` and the port to `8000`.
+
+Add the built-in **To-Do List** card to a dashboard and select the
+`todo.taskd` entity.
 
 No authentication is configured — this integration is intended for
 LAN-only taskd instances.
