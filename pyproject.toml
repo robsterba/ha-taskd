@@ -1,0 +1,12 @@
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
+asyncio_mode = "auto"
+norecursedirs = [
+    ".git",
+    ".venv",
+]
+markers = [
+    "live: live end-to-end tests against a real taskd instance (set TASKD_LIVE_URL)",
+]
