@@ -6,6 +6,7 @@ removed before and after the run.
 """
 
 import dataclasses
+import logging
 import os
 from datetime import datetime, timezone
 
@@ -31,12 +32,22 @@ pytestmark = [
 E2E_TAG = "ha-taskd-e2e"
 E2E_SUMMARY = "HA integration e2e probe"
 E2E_RECURRING = "HA integration e2e recurring"
+_LOGGER = logging.getLogger(__name__)
 
 
 async def _cleanup(hass, coordinator) -> None:
-    """Delete every task tagged ha-taskd-e2e (ours only)."""
+    """Delete every task tagged ha-taskd-e2e (ours only).
+
+    The server-side tag filter is verified client-side per task before
+    deleting: taskd 1.3.3 and earlier return ALL tasks when asked for a
+    tag that does not exist, which would make this delete the user's
+    entire task list.
+    """
     data = await coordinator.client.async_list_tasks({"tag": E2E_TAG, "limit": 500})
     for task in data.get("tasks", []):
+        if E2E_TAG not in task.get("tags", []):
+            _LOGGER.warning("Skipping unexpected task %s in cleanup", task.get("id"))
+            continue
         await coordinator.client.async_delete_task(task["id"])
 
 
