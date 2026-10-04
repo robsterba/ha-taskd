@@ -8,6 +8,7 @@ DOMAIN: Final = "taskd"
 DEFAULT_NAME: Final = "taskd"
 DEFAULT_PORT: Final = 8000
 
+CONF_API_KEY: Final = "api_key"
 CONF_SCAN_INTERVAL: Final = "scan_interval"
 DEFAULT_SCAN_INTERVAL: Final = 60
 MIN_SCAN_INTERVAL: Final = 30

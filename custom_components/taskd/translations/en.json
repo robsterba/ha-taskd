@@ -3,15 +3,17 @@
     "step": {
       "user": {
         "title": "Connect to taskd",
-        "description": "Base URL of your taskd instance, e.g. http://taskd.local:8000",
+        "description": "Base URL of your taskd instance, e.g. http://taskd.local:8000. If your instance requires an API key, enter it below.",
         "data": {
-          "url": "URL"
+          "url": "URL",
+          "api_key": "API key (optional)"
         }
       }
     },
     "error": {
       "cannot_connect": "Cannot connect to taskd at that URL.",
-      "invalid_url": "That does not look like a valid URL."
+      "invalid_url": "That does not look like a valid URL.",
+      "invalid_api_key": "That API key was rejected by taskd."
     },
     "abort": {
       "already_configured": "This taskd instance is already configured."
@@ -22,7 +24,8 @@
       "init": {
         "title": "taskd options",
         "data": {
-          "scan_interval": "Scan interval (seconds)"
+          "scan_interval": "Scan interval (seconds)",
+          "api_key": "API key (optional)"
         }
       }
     },

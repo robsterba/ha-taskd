@@ -17,6 +17,7 @@ from homeassistant.util import dt as dt_util
 
 from .api import TaskdClient
 from .const import (
+    CONF_API_KEY,
     CONF_SCAN_INTERVAL,
     DEFAULT_SCAN_INTERVAL,
     DOMAIN,
@@ -48,7 +49,8 @@ type TaskdConfigEntry = ConfigEntry[TaskdCoordinator]
 
 async def async_setup_entry(hass: HomeAssistant, entry: TaskdConfigEntry) -> bool:
     """Set up taskd from a config entry."""
-    client = TaskdClient(async_get_clientsession(hass), entry.data[CONF_URL])
+    api_key = entry.options.get(CONF_API_KEY, entry.data.get(CONF_API_KEY))
+    client = TaskdClient(async_get_clientsession(hass), entry.data[CONF_URL], api_key)
     coordinator = TaskdCoordinator(
         hass, client, entry.options.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
     )

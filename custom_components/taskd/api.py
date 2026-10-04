@@ -43,10 +43,13 @@ def normalize_base_url(value: str) -> str:
 class TaskdClient:
     """taskd API client. One instance per config entry."""
 
-    def __init__(self, session: aiohttp.ClientSession, base_url: str) -> None:
+    def __init__(
+        self, session: aiohttp.ClientSession, base_url: str, api_key: str | None = None
+    ) -> None:
         """Initialize the client with a shared session and normalized URL."""
         self._session = session
         self._base_url = base_url.rstrip("/")
+        self._api_key = (api_key or "").strip() or None
 
     @property
     def base_url(self) -> str:
@@ -61,10 +64,16 @@ class TaskdClient:
         json: dict[str, Any] | None = None,
     ) -> Any:
         """Perform a request and map errors to typed exceptions."""
+        headers = {"X-API-Key": self._api_key} if self._api_key else None
         url = f"{self._base_url}{path}"
         try:
             async with self._session.request(
-                method, url, params=params, json=json, timeout=API_TIMEOUT
+                method,
+                url,
+                headers=headers,
+                params=params,
+                json=json,
+                timeout=API_TIMEOUT,
             ) as resp:
                 if resp.status == 404:
                     raise TaskdItemNotFoundError(f"Taskd item not found: {path}")

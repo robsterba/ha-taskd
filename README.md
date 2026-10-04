@@ -58,8 +58,8 @@ works; the scheme defaults to `http` and the port to `8000`.
 Add the built-in **To-Do List** card to a dashboard and select the
 `todo.taskd` entity.
 
-No authentication is configured — this integration is intended for
-LAN-only taskd instances.
+If your taskd instance has API key authentication enabled (taskd 1.6.0+,
+`TASKD_API_KEY` set), enter the key in the optional **API key** field; it is sent as an `X-API-Key` header on every request. For LAN-only instances without authentication, leave it empty. You can also change the key later under the integration's **Configure** options.
 
 ## Services
 

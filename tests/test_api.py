@@ -111,6 +111,9 @@ async def taskd_server(socket_enabled):
         del tasks[request.match_info["task_id"]]
         return web.Response(status=204)
 
+    async def echo(request: web.Request) -> web.Response:
+        return web.json_response({"x_api_key": request.headers.get("X-API-Key")})
+
     async def bad_request(_request: web.Request) -> web.Response:
         return web.json_response({"detail": "priority is not a valid enum"}, status=422)
 
@@ -123,6 +126,7 @@ async def taskd_server(socket_enabled):
     app.router.add_get("/api/v1/tasks", list_tasks)
     app.router.add_post("/api/v1/tasks", create_task)
     app.router.add_get("/api/v1/bad", bad_request)
+    app.router.add_get("/api/v1/echo", echo)
     app.router.add_get("/api/v1/boom", boom)
     app.router.add_get("/api/v1/tasks/{task_id}", get_task)
     app.router.add_patch("/api/v1/tasks/{task_id}", update_task)
@@ -218,5 +222,23 @@ async def test_connection_error(hass, socket_enabled) -> None:
         bad = TaskdClient(session, "http://127.0.0.1:1")
         with pytest.raises(TaskdConnectionError):
             await bad.async_get_health()
+    finally:
+        await session.close()
+
+
+async def test_api_key_header(taskd_server, socket_enabled) -> None:
+    server, _ = taskd_server
+    session = aiohttp.ClientSession()
+    try:
+        anon = TaskdClient(session, str(server.make_url("")))
+        assert (await anon._request("GET", "/api/v1/echo"))["x_api_key"] is None
+
+        authed = TaskdClient(session, str(server.make_url("")), "secret-123")
+        assert (await authed._request("GET", "/api/v1/echo"))[
+            "x_api_key"
+        ] == "secret-123"
+
+        blank = TaskdClient(session, str(server.make_url("")), "   ")
+        assert (await blank._request("GET", "/api/v1/echo"))["x_api_key"] is None
     finally:
         await session.close()
